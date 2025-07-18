@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Delta Publications - Employee Work Log</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- 🔷 HEADER SECTION -->
+  <header class="header">
+    <div class="header-left">
+      <img src="logo.png" alt="Delta Publications Logo" class="logo" />
+      <span class="company-name">Delta Rev Tech</span>
+    </div>
+    <div class="header-right">
+      <a href="https://deltapublications.in" target="_blank">
+        <button class="visit-btn">Visit Website</button>
+      </a>
+    </div>
+  </header>
+
+  <!-- 🔶 MAIN CONTAINER -->
+  <div class="container">
+    <h1>📋 Employee Work Log</h1>
+
+    <form id="workForm">
+      <input type="text" id="name" placeholder="Enter employee name" required />
+      <input type="text" id="work" placeholder="Enter work done" required />
+      <input type="date" id="date" required />
+      <button type="submit">Submit</button>
+    </form>
+
+    <button id="downloadBtn">📥 Download Excel</button>
+
+    <p id="statusMsg"></p>
+  </div>
+
+  <!-- 🔽 SCRIPT -->
+  <script>
+    const form = document.getElementById('workForm');
+    const msg = document.getElementById('statusMsg');
+    const downloadBtn = document.getElementById('downloadBtn');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value;
+      const work = document.getElementById('work').value;
+      const date = document.getElementById('date').value;
+
+      const res = await fetch('http://localhost:5000/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, work, date }),
+      });
+
+      const data = await res.json();
+      msg.textContent = data.message;
+      msg.style.color = res.ok ? 'green' : 'red';
+
+      form.reset();
+    });
+
+    downloadBtn.addEventListener('click', () => {
+      window.location.href = 'http://localhost:5000/download';
+    });
+
+    // Auto-fill today's date
+    document.getElementById('date').valueAsDate = new Date();
+  </script>
+</body>
+</html>
