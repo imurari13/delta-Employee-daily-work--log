@@ -1,45 +1,33 @@
 // backend/index.js
-const express        = require('express');
-const mongoose       = require('mongoose');
-const cors           = require('cors');
-const path           = require('path');
-const { appendToExcel } = require('./excel');
-const Employee       = require('./employee');
+const express = require('express');
+const cors = require('cors');
+const path = require('path');
+const { appendToExcel } = require('./excel'); // Your Excel write logic
 
-const app  = express();
-const PORT = 5000;
+const app = express();
+const PORT = process.env.PORT || 5000;
 
 /* ---------- middleware ---------- */
 app.use(cors());
 app.use(express.json());
 
-/* ---------- MongoDB ---------- */
-mongoose.connect('mongodb://127.0.0.1:27017/employeeData', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
-mongoose.connection.on('connected', () =>
-  console.log('✅ MongoDB connected'));
-mongoose.connection.on('error', err =>
-  console.error('❌ MongoDB error:', err));
-
 /* ---------- API routes ---------- */
-// POST /submit  → save to Mongo & Excel
+
+// POST /submit → save to Excel only
 app.post('/submit', async (req, res) => {
   const { name, work, date } = req.body;
   console.log('📥 Received:', name, work, date);
 
   try {
-    await new Employee({ name, work, date }).save();
     await appendToExcel({ name, work, date });
-    res.json({ message: 'Data saved successfully!' });
+    res.json({ message: 'Data saved to Excel successfully!' });
   } catch (err) {
-    console.error('❌ Save failed:', err);
-    res.status(500).json({ message: 'Error saving data' });
+    console.error('❌ Excel write failed:', err);
+    res.status(500).json({ message: 'Error saving to Excel' });
   }
 });
 
-// GET /download  → download Excel file
+// GET /download → download Excel file
 app.get('/download', (req, res) => {
   const filePath = path.join(__dirname, 'data.xlsx');
   res.download(filePath, 'EmployeeData.xlsx', err => {
@@ -52,4 +40,5 @@ app.get('/download', (req, res) => {
 
 /* ---------- start server ---------- */
 app.listen(PORT, () =>
-  console.log(`🚀 Server running at http://localhost:${PORT}`));
+  console.log(`🚀 Server running at http://localhost:${PORT}`)
+);
