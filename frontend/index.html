@@ -9,30 +9,30 @@
 <body>
 
   <!-- 🔷 HEADER SECTION -->
-  <header class="header">
+  <header class="header neon-border">
     <div class="header-left">
       <img src="logo.png" alt="Delta Publications Logo" class="logo" />
       <span class="company-name">Delta Rev Tech</span>
     </div>
     <div class="header-right">
       <a href="https://deltapublications.in" target="_blank">
-        <button class="visit-btn">Visit Website</button>
+        <button class="visit-btn neon-hover">Visit Website</button>
       </a>
     </div>
   </header>
 
   <!-- 🔶 MAIN CONTAINER -->
-  <div class="container">
-    <h1> Employee Work Log</h1>
+  <div class="container neon-border">
+    <h1>📋 Employee Work Log</h1>
 
     <form id="workForm">
-      <input type="text" id="name" placeholder="Enter employee name" required />
-      <input type="text" id="work" placeholder="Enter work done" required />
-      <input type="date" id="date" required />
-      <button type="submit">Submit</button>
+      <input type="text" id="name" class="neon-input" placeholder="Enter employee name" required />
+      <input type="text" id="work" class="neon-input" placeholder="Enter work done" required />
+      <input type="date" id="date" class="neon-input" required />
+      <button type="submit" class="neon-hover">Submit</button>
     </form>
 
-    <button id="downloadBtn"> Download Excel</button>
+    <button id="downloadBtn" class="neon-hover">📥 Download Excel</button>
 
     <p id="statusMsg"></p>
   </div>
@@ -58,7 +58,7 @@
 
       const data = await res.json();
       msg.textContent = data.message;
-      msg.style.color = res.ok ? 'green' : 'red';
+      msg.style.color = res.ok ? 'lime' : 'red';
 
       form.reset();
     });
@@ -67,7 +67,6 @@
       window.location.href = 'http://localhost:5000/download';
     });
 
-    // Auto-fill today's date
     document.getElementById('date').valueAsDate = new Date();
   </script>
 </body>
