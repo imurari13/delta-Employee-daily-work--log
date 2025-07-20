@@ -50,7 +50,7 @@
       const work = document.getElementById('work').value;
       const date = document.getElementById('date').value;
 
-      const res = await fetch('http://localhost:5000/submit', {
+      const res = await fetch('https://delta-employee-daily-work-log.onrender.com/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, work, date }),
@@ -64,7 +64,7 @@
     });
 
     downloadBtn.addEventListener('click', () => {
-      window.location.href = 'http://localhost:5000/download';
+      window.location.href = 'https://delta-employee-daily-work-log.onrender.com/download';
     });
 
     document.getElementById('date').valueAsDate = new Date();
