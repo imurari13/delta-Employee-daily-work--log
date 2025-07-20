@@ -1,13 +1,14 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "",
+  "description": "Backend for employee daily work log",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "your-name-here",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
